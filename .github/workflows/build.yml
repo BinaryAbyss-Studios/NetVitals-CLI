@@ -1,0 +1,227 @@
+name: Build Executables
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+
+  # =========================
+  # Windows
+  # =========================
+  windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+
+      - name: Install dependencies
+        shell: cmd
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install scapy whois requests pywifi comtypes
+
+      - name: Build
+        shell: cmd
+        run: |
+          pyinstaller --clean --onefile --console --icon "ico\worldwide.ico" ^
+            --add-data "src\Program.py;." ^
+            --add-data "src\Systems\Tools\bruteforcer.py;." ^
+            --add-data "src\Systems\Tools\Arp_spoof.py;." ^
+            --add-data "src\Systems\Tools\deauth_Attack.py;." ^
+            --add-data "src\Systems\Tools\Nmap_tool.py;." ^
+            --add-data "src\Systems\Tools\passwordGenarator.py;." ^
+            --add-data "src\Themes.py;." ^
+            --collect-all scapy ^
+            --collect-all whois ^
+            --collect-all requests ^
+            --collect-all pywifi ^
+            --collect-all comtypes ^
+            "src\main.py"
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: NetVitals-Windows-x64
+          path: dist/*
+
+
+  # =========================
+  # Linux
+  # =========================
+  linux:
+    strategy:
+      matrix:
+        include:
+          - name: Ubuntu
+            image: ubuntu:24.04
+
+          - name: Debian
+            image: debian:stable
+
+          - name: Fedora
+            image: fedora:latest
+
+          - name: Arch
+            image: archlinux:latest
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: ${{ matrix.image }}
+
+    steps:
+      - name: Install system packages
+        shell: bash
+        run: |
+          if command -v apt-get >/dev/null; then
+            apt-get update
+            apt-get install -y python3 python3-pip python3-venv git
+
+          elif command -v dnf >/dev/null; then
+            dnf install -y python3 python3-pip git
+
+          elif command -v pacman >/dev/null; then
+            pacman -Sy --noconfirm python python-pip git
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install Python dependencies
+        shell: bash
+        run: |
+          python3 -m venv .venv
+          . .venv/bin/activate
+
+          pip install --upgrade pip
+          pip install pyinstaller
+          pip install scapy whois requests
+
+      - name: Build
+        shell: bash
+        run: |
+          . .venv/bin/activate
+
+          pyinstaller --clean --onefile --console \
+            --add-data "src/Program.py:." \
+            --add-data "src/Systems/Tools/bruteforcer.py:." \
+            --add-data "src/Systems/Tools/Arp_spoof.py:." \
+            --add-data "src/Systems/Tools/deauth_Attack.py:." \
+            --add-data "src/Systems/Tools/Nmap_tool.py:." \
+            --add-data "src/Systems/Tools/passwordGenarator.py:." \
+            --add-data "src/Themes.py:." \
+            --collect-all scapy \
+            --collect-all whois \
+            --collect-all requests \
+            "src/main.py"
+
+      - name: Rename executable
+        shell: bash
+        run: |
+          mv dist/main "NetVitals-${{ matrix.name }}-x64"
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: NetVitals-${{ matrix.name }}-x64
+          path: dist/*
+
+
+  # =========================
+  # macOS Intel
+  # =========================
+  macos-intel:
+    runs-on: macos-15-intel
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install scapy whois requests
+
+      - name: Build
+        run: |
+          pyinstaller --clean --onefile --console \
+            --add-data "src/Program.py:." \
+            --add-data "src/Systems/Tools/bruteforcer.py:." \
+            --add-data "src/Systems/Tools/Arp_spoof.py:." \
+            --add-data "src/Systems/Tools/deauth_Attack.py:." \
+            --add-data "src/Systems/Tools/Nmap_tool.py:." \
+            --add-data "src/Systems/Tools/passwordGenarator.py:." \
+            --add-data "src/Themes.py:." \
+            --collect-all scapy \
+            --collect-all whois \
+            --collect-all requests \
+            "src/main.py"
+
+          mv dist/main dist/NetVitals-macOS-Intel
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: NetVitals-macOS-Intel
+          path: dist/*
+
+
+  # =========================
+  # macOS ARM64
+  # =========================
+  macos-arm64:
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install scapy whois requests
+
+      - name: Build
+        run: |
+          pyinstaller --clean --onefile --console \
+            --add-data "src/Program.py:." \
+            --add-data "src/Systems/Tools/bruteforcer.py:." \
+            --add-data "src/Systems/Tools/Arp_spoof.py:." \
+            --add-data "src/Systems/Tools/deauth_Attack.py:." \
+            --add-data "src/Systems/Tools/Nmap_tool.py:." \
+            --add-data "src/Systems/Tools/passwordGenarator.py:." \
+            --add-data "src/Themes.py:." \
+            --collect-all scapy \
+            --collect-all whois \
+            --collect-all requests \
+            "src/main.py"
+
+          mv dist/main dist/NetVitals-macOS-ARM64
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: NetVitals-macOS-ARM64
+          path: dist/*
