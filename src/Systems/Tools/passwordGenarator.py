@@ -6,7 +6,7 @@ import itertools
 from pathlib import Path
 print("[+] Loading PasswordGenarator Program.")
 # ---------- CONFIG ----------
-General_OutPut_Path = "Genarated_Passowrd.txt"
+General_OutPut_Path = "Genarated_Password.txt"
 output_path = Path(General_OutPut_Path)
 
 # Base prefix(s) you want to try (examples from your message)
@@ -92,7 +92,7 @@ def Menu():
 
      [6] Exit Program
 
-[00] Start Genarating
+[00] Start Genarating [menu] for printing menu
 """ 
 
 def Handle_Prefix():
@@ -115,7 +115,7 @@ def Handle_Prefix():
                 else:
                     prefixes.remove(Change_prefix)
                     print(f"[+] {Change_prefix} Has Been Removed.")
-                    prefixes.extend(Replacment_Prefix)
+                    prefixes.append(Replacment_Prefix)
                     print(f"[+] {Replacment_Prefix} Has Been Added.")
                     return
 
@@ -132,6 +132,7 @@ def Handle_Prefix():
                     print("[-] Please Enter a vaild Prefix to Remove.")
                 else:
                     prefixes.remove(Remove_Prefix_Input)
+                    print(f"[+] {Remove_Prefix_Input} Has Been Removed.")
             elif user_HandlePrefix_input == '4':
                 return
             

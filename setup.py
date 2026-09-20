@@ -23,18 +23,25 @@ else:
         print(venv_result.stderr)
         print(venv_result.stdout)
 
-        venv_python = os.path.join('venv', 'Scripts', 'python.exe') if os.name == 'nt' else os.path.join('venv', 'bin', 'python')
+        venv_python = os.path.join('.venv', 'Scripts', 'python.exe') if os.name == 'nt' else os.path.join('.venv', 'bin', 'python')
 
 print("[+] installing requirements into virtual environment..")
-result = subprocess.run(
-    [venv_python, '-m', 'pip', 'install', '-r', 'requirements.txt'],
-    text=True,
-    capture_output=True
-)
+try:
+    result = subprocess.Popen(
+        [venv_python, '-m', 'pip', 'install', '-r', 'requirements.txt'],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        bufsize=1
+    )
+    for line in result.stdout:
+        print(line, end="")
 
-print(result.stderr)
-print(result.stdout)
-
+    result.wait()
+except KeyboardInterrupt:
+    result.terminate()
+    print("Process Terminated. KeyboardInterrupt")
+    sys.exit()
 
 os_name = platform.system()
 prefix = "py" if os_name == "Windows" else "python3"

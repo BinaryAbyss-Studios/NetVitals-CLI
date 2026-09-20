@@ -6,17 +6,19 @@ import platform
 import shutil
 import re
 import csv
-import time
+from time import sleep
 from datetime import datetime
 os_name = platform.system()
 
-if os_name == 'Linux':
-    if shutil.which("aircrack-ng") is None:
-        print("[-] Aircrack-ng  not found. Linux Deauth Packets requires Aircrack-ng.")
-        sys.exit()
-    print("[+] Found Aircrack-ng Package")
-else:
-    pass
+def system_check():
+    if os_name == 'Linux':
+        if shutil.which("aircrack-ng") is None:
+            print("[-] Aircrack-ng  not found. Linux Deauth Packets requires Aircrack-ng.")
+            return
+        print("[+] Found Aircrack-ng Package")
+    else:
+        pass
+system_check()
 
 active_wireless_networks = []
 
@@ -50,11 +52,7 @@ def Home_Menu():
  ░ ░  ░ ░ ░ ░ ▒  ░  ░  ░       ░   ▒    ░        ░        ░   ▒   ░        ░ ░░ ░ 
    ░        ░ ░        ░           ░  ░                       ░  ░░ ░      ░  ░   
  ░
-
-****************************************************************      
-* by: BinaryAbyss Studios                                      *
-*   https://binaryabyssstudios.github.io/                      *  
-****************************************************************                                                         ░    
+                                                         ░    
 """
 
 def main():
@@ -164,7 +162,7 @@ def main():
                 # rather than ugly concatenations.
                 print(f"{index}\t{item['BSSID']}\t{item['channel'].strip()}\t\t{item['ESSID']}")
             # We make the script sleep for 1 second before loading the updated list.
-            time.sleep(1)
+            sleep(1)
 
     except KeyboardInterrupt:
         print("\nReady to make choice.")

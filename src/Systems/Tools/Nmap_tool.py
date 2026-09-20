@@ -19,8 +19,12 @@ import sys
 
 def system_check():
     if shutil.which("nmap") is None:
-        print("[-] nmap  not found. This Program requires nmap.")
-        return
+        if platform.system == "Windows":
+            print("[-] nmap  not found. This Program requires nmap.\n this maybe a enviroment table error, if you didnt create an variable for (nmap) it can cause this warn")
+            return
+        else:
+            print("[-] nmap  not found. This Program requires nmap.")
+            return
     print("[+] Found nmap Package")
 
 system_check()
@@ -55,7 +59,7 @@ ROOT_REQUIRED_FLAGS = {"-sS", "-O", "-sU", "-A"}
 def check_nmap_installed():
     if shutil.which("nmap") is None:
         print("[!] nmap is not installed. Install it with: sudo apt install nmap")
-        sys.exit(1)
+        return
 
 
 def is_root():
@@ -65,7 +69,11 @@ def is_root():
 def run_cmd(cmd):
     """Run a command and return its stdout as text, or None on failure."""
     try:
-        return subprocess.check_output(cmd, text=True, stderr=subprocess.DEVNULL)
+        return subprocess.check_output(
+            cmd,
+            text=True,
+            stderr=subprocess.DEVNULL
+        )
     except Exception:
         return None
 
@@ -153,9 +161,22 @@ def run_scan(args, target):
     cmd = ["nmap"] + args + [target]
     print(f"\n[+] Running: {' '.join(cmd)}\n")
     try:
-        subprocess.run(cmd)
+        process = subprocess.Popen(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1
+        )
+        for line in process.stdout:
+            print(line, end="")
+
+        process.wait()
+        
     except KeyboardInterrupt:
+        process.terminate()
         print("\n[!] Scan interrupted.")
+
     except Exception as e:
         print(f"[!] Error running nmap: {e}")
 

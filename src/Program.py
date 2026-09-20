@@ -1,5 +1,5 @@
 #── Dependenses ────────────────
-import time
+from time import sleep
 import socket  
 import os
 import sys
@@ -10,6 +10,15 @@ import json
 from datetime import datetime
 import threading
 os_name = platform.system()
+import time
+
+def Clear_Console():
+    if os_name == 'Windows':
+        os.system('cls')
+    elif os_name in ['Linux', 'Darwin']:
+        os.system('clear')
+
+Clear_Console()
 
 def spinner(stop_event, text="Loading"):
     frames = "|/-\\"
@@ -18,13 +27,14 @@ def spinner(stop_event, text="Loading"):
         sys.stdout.write(f"\r{frames[i % len(frames)]} {text}...")
         sys.stdout.flush()
         i += 1
-        time.sleep(0.1)
-    sys.stdout.write(f"\rDone!            \n")
+        sleep(0.1)
+    sys.stdout.write(f"\r[  Done  ]           \n")
     sys.stdout.flush()
 
 stop_event = threading.Event()
 t = threading.Thread(target=spinner, args=(stop_event,))
 t.start()
+
 
 try: 
     import Themes as T # Themes Module for coloers and customization
@@ -33,8 +43,8 @@ try:
     from Systems.Tools import deauth_Attack as da_attack
     from Systems.Tools import Nmap_tool as NTool
     from Systems.Tools import Arp_spoof as ASP
-except ModuleNotFoundError: 
-    print("[!] Could not found Some Essensials Files File.")
+except (ModuleNotFoundError, ImportError) as e: 
+    print(f"[!] Could not found Some Essensials Files File. : {e}")
     print("Please Import/Put the Theme file same directory as the program.")
 
 # ── Free up Ram usage and optimization ────────────────────
@@ -57,12 +67,14 @@ except (ModuleNotFoundError, ImportError) as e:
     print(f"{T.LOG_ERROR} Could not found essensials modules, Please Install it from requirements.txt: {e}")
     sys.exit(1)
 
-# ── NetVitals Program version 1.5 ───────────────────────────────────
+# ── NetVitals Program version 1.6.1 ───────────────────────────────────
 #- Open Source on Github.
+version = "v1.6.1"
+
 if os_name == "Windows":
-    os.system("title NetVitals v1.5")
+    os.system(f"title NetVitals {version}")
 elif os_name == "Linux" or os_name == "Darwin":
-    os.system("""printf '\033]2;NetVitals v1.5\a'""")
+    os.system(f"""printf '\033]2;NetVitals {version}\a'""")
 else:
     pass
 
@@ -84,12 +96,10 @@ Default_wordlist = [
 ]
 
 Banner =  r"""
-███╗   ██╗███████╗████████╗██╗   ██╗██╗████████╗ █████╗ ██╗     ███████╗
-████╗  ██║██╔════╝╚══██╔══╝██║   ██║██║╚══██╔══╝██╔══██╗██║     ██╔════╝
-██╔██╗ ██║█████╗     ██║   ██║   ██║██║   ██║   ███████║██║     ███████╗
-██║╚██╗██║██╔══╝     ██║   ╚██╗ ██╔╝██║   ██║   ██╔══██║██║     ╚════██║
-██║ ╚████║███████╗   ██║    ╚████╔╝ ██║   ██║   ██║  ██║███████╗███████║
-╚═╝  ╚═══╝╚══════╝   ╚═╝     ╚═══╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝"""
+▄█▄  █▄ ▄█████ ▄████▄ ▄█  █▄  ██ ▄████▄   ███   ▄█     ██████
+██▀█ ██ ██▄▄     ██   ██  ██  ██   ██    ██ ██  ██     █▄▄▄▄▄
+██ █▄██ ██▀▀     ██   ██  ██  ██   ██   ██▀▀▀██ ██     ▀▀▀▀██
+▀█  ██▀ ▀█████   ██    ▀██▀   ██   ██    ██ ██  ▀█████ ██████"""
 def Menu():
     return f"""                         
   ╭─────────────────╮         ╭────────────────────╮
@@ -106,37 +116,32 @@ def Menu():
         [99] Exit    [01] More Options   [02] clear {T.COLOR_RESET}"""
 
 
-def Clear_Console():
-    if os_name == 'Windows':
-        os.system('cls')
-    elif os_name in ['Linux', 'Darwin']:
-        os.system('clear')
-
-
 def IpLookup(ip):
     if not ip:
         print(f"{T.LOG_ERROR} Invalid Ip (argument)")
-    else:
-        try:
-            Response = rq.get(f'https://ipinfo.io/{ip}/json', timeout=10)
-            if Response.ok:
-                print(f"{T.LOG_SUCCESS} Request Made.")
-                data = Response.json()
-                print(f"{T.LOG_SUCCESS} Converted to a Json Response.") 
-            try:
-                ip = data.get('ip', 'N/A')
-                hostname = data.get('hostname', 'N/A')
-                city = data.get('city', 'N/A')
-                region = data.get('region', 'N/A')
-                country = data.get('country', 'N/A')
-                location = data.get('loc', 'N/A')
-                org = data.get('org', 'N/A')
-                postal = data.get('postal', 'N/A')
-                timezone = data.get('timezone', 'N/A')
-            except Exception as ex:
-                print(f"{T.LOG_WARN} {ex}")
+        return
+    try:
+        Response = rq.get(f'https://ipinfo.io/{ip}/json', timeout=10)
 
-            Compressed_data = f"""
+        if not Response.ok:
+            print(f"{T.LOG_ERROR} Request failed with status {Response.status_code}: {Response.text}")
+            return
+
+        print(f"{T.LOG_SUCCESS} Request Made.")
+        data = Response.json()
+        print(f"{T.LOG_SUCCESS} Converted to a Json Response.")
+
+        ip = data.get('ip', 'N/A')
+        hostname = data.get('hostname', 'N/A')
+        city = data.get('city', 'N/A')
+        region = data.get('region', 'N/A')
+        country = data.get('country', 'N/A')
+        location = data.get('loc', 'N/A')
+        org = data.get('org', 'N/A')
+        postal = data.get('postal', 'N/A')
+        timezone = data.get('timezone', 'N/A')
+
+        Compressed_data = f"""
    {T.LOG_INFO}  Request Results
 ip (internet protocol) = {ip}
 hostname = {hostname}
@@ -147,10 +152,13 @@ location = {location}
 org = {org}
 postal = {postal}
 timezone = {timezone}
-""" 
-            print(Compressed_data)
-        except Exception as ex:
-            print(f"{T.LOG_ERROR} {ex}")
+── extras ────
+google geolocation = https://www.google.com/maps?q={location}
+"""
+        print(Compressed_data)
+        del Compressed_data
+    except Exception as ex:
+        print(f"{T.LOG_ERROR} {ex}")
 
 
 def UrlLookup(url):
@@ -161,7 +169,6 @@ def UrlLookup(url):
             print(f"{T.LOG_ERROR} Could not parse a valid Domain From the url")
             return
         print(f"{T.LOG_SUCCESS} Resolving Domain: {domain}")
-
         ip_address = socket.gethostbyname(domain)
         print(f"{T.LOG_SUCCESS} ip Address: {ip_address}")
         IpLookup(ip_address)
@@ -199,18 +206,28 @@ def whois_lookup(domain):
 
     
 def sniffer():
+    packets_ = input(f"{T.LOG_INFO} show number of bytes (Enter for default) ")
+    try:
+        if not packets_:
+            packets_ = 50
+        else:
+            packets_ = int(packets_)
+    except ValueError:
+        print(f"{T.LOG_ERROR} Value Error, please enter a real number\n running default")
+        packets_ = 50 # Default = 50
     try:
         sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
         print(f"{T.LOG_SUCCESS} Sniffing network traffic... Press Ctrl+C to stop.")
 
         while True:
             raw_packet, address = sniffer.recvfrom(65565)
-            print(f"Packet received from {address}: {raw_packet[:200]}") # Shows first 200 bytes
+            print(f"Packet received from {address}: {raw_packet[:packets_]}")
     except PermissionError:
          print(f"{T.LOG_ERROR} You must run this script with root/administrator privileges.")
          return
     except KeyboardInterrupt:
         print(f"\n{T.LOG_WARN} Packet Sniffing has been Stopped. KeyboardInterrupt")
+
 
 
 def check_subdomains(target_domain, subdomain_list):
@@ -250,11 +267,11 @@ def More_Options():
     Section = f"{T.COLOR_MAGENTA}[1]{T.COLOR_RESET} Visit Website {T.COLOR_MAGENTA}[2]{T.COLOR_RESET} Visit Source Code {T.COLOR_MAGENTA}[3]{T.COLOR_RESET} Return"
     print(Section)
     while True:
-        choice = input("~> ")
+        choice = input("More Options~> ")
         if choice == "1":
-            webbrowser.open('https://binaryabyssstudios.github.io/')
+            webbrowser.open('https://lobby.binaryabyssstudios.workers.dev/')
         elif choice =="2":
-            webbrowser.open('https://github.com/BinaryAbyssStudios/NetVitals')
+            webbrowser.open('https://github.com/BinaryAbyss-Studios/NetVitals-CLI')
         elif choice =="3":
             return
         else:
@@ -352,12 +369,12 @@ def EntryBoot():
                 Clear_Console()
             elif cmd == "01":
                 More_Options()
-            elif cmd  in ['menu']:
+            elif cmd in ['menu']:
                 print(f"""
         {Banner}
         {Menu()}
         """)
-            elif cmd == "99":
+            elif cmd in ["99", "exit"]:
                 print(f"{T.LOG_INFO} Goodbye.")
                 sys.exit()
             else:
@@ -368,3 +385,6 @@ def EntryBoot():
             print(f"{T.LOG_ERROR} Value Error: {e}")
         except Exception as e:
             print(f"{T.LOG_ERROR} Critical Error has Occured : {e}")
+
+if __name__ == "__main__":
+    sys.exit(f"{T.LOG_WARN} re execute this script by using main.py.")

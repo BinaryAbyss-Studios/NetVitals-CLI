@@ -1,9 +1,14 @@
-# 🌐 NetVitals
+<div align="center">
 
-[![Discord invite](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscordapp.com%2Fapi%2Finvites%2FA2HGSGVhey%3Fwith_counts%3Dtrue&query=approximate_member_count&style=for-the-badge&logo=discord&logoColor=ffffff&label=discord&labelColor=101418&color=96f1f1&link=https%3A%2F%2Fdiscord.gg%2FA2HGSGVhey)](https://discord.gg/A2HGSGVhey)
-![GitHub last commit](https://img.shields.io/github/last-commit/BinaryAbyssStudios/NetVitals?style=for-the-badge&labelColor=101418&color=9ccbfb)
-![GitHub Repo stars](https://img.shields.io/github/stars/BinaryAbyssStudios/NetVitals?style=for-the-badge&labelColor=101418&color=b9c8da)
-![GitHub repo size](https://img.shields.io/github/repo-size/BinaryAbyssStudios/NetVitals?style=for-the-badge&labelColor=101418&color=d3bfe6)
+![NetVitals Banner](./image.png)
+
+[![Release](https://img.shields.io/badge/release-1.6.1-96f1f1?labelColor=101418\&logo=github\&logoColor=white)](https://github.com/BinaryAbyss-Studios/NetVitals/releases)
+[![Platforms](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-8A2BE2)](https://github.com/Binaryabyss-Studios/NetVitals-CLI/releases)
+[![Discord](https://img.shields.io/badge/discord_server-96f1f1?labelColor=101418\&logo=discord\&logoColor=white)](https://discord.gg/A2HGSGVhey)    
+[![Last Commit](https://img.shields.io/github/last-commit/BinaryAbyss-Studios/NetVitals?label=last%20commit\&labelColor=101418\&color=9ccbfb\&logo=git\&logoColor=white)](https://github.com/BinaryAbyss-Studios/NetVitals/commits/main)    
+[![Repo Size](https://img.shields.io/github/repo-size/BinaryAbyss-Studios/NetVitals?label=repo%20size\&labelColor=101418\&color=d3bfe6\&logo=github\&logoColor=white)](https://github.com/BinaryAbyss-Studios/NetVitals)
+
+</div>
 
 ---
 
@@ -13,11 +18,12 @@
 
 - **you can find Forgotten Websites with Subdomain Enumerator Tool, and there is a bulit in Default Wordlist.**
 
-- **Test Network Paaswords and Capture Hashes**
+- **Test Network Paaswords and Capture packets**
+
+- **Arp Spoof Attacks/the Man in the Middle**
 
 - **We Currently Supported 3 Offical OS  (Linux, Macos, Windows). & All Linux Distributions.**
 
-![NetVitals Showcase](./NetVitals_Showcase.gif)
 
 # Installations
 
@@ -80,8 +86,8 @@ if you want to run after installation again (same directory):
 
 ---
 
-## Support
+# buy us a coffee ☕
 
 If you find this project useful, consider sponsoring its development.
 
-[![Sponsor](https://img.shields.io/badge/❤️-Sponsor-ea4aaa)](https://github.com/sponsors/BinaryAbyssStudios)
+[![Buy Us a Coffee](https://img.shields.io/badge/-buy_us_a_coffee-A52A2A)](https://github.com/sponsors/BinaryAbyssStudios)
