@@ -33,7 +33,7 @@ jobs:
       - name: Build
         shell: cmd
         run: |
-          pyinstaller --clean --onefile --console ^
+          pyinstaller --clean --onefile --console -u ^
             --icon "ico\ico.ico" ^
             --add-data "src\Program.py;." ^
             --add-data "src\Systems\Tools\bruteforcer.py;." ^
@@ -47,7 +47,6 @@ jobs:
             --collect-all requests ^
             --collect-all pywifi ^
             --collect-all comtypes ^
-            -u ^
             "src\main.py"
 
       - name: Rename executable
