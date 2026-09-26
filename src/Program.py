@@ -3,6 +3,11 @@ from time import sleep
 import socket  
 import os
 import sys
+
+# FORCE UNBUFFERED OUTPUT FOR EXE COMPATIBILITY
+sys.stdout.reconfigure(line_buffering=True)
+sys.stderr.reconfigure(line_buffering=True)
+
 from urllib.parse import urlparse
 import webbrowser
 import platform
