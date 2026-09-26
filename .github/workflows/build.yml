@@ -33,7 +33,7 @@ jobs:
       - name: Build
         shell: cmd
         run: |
-          pyinstaller --clean --onefile --console -u ^
+          pyinstaller --clean --onefile --console ^
             --icon "ico\ico.ico" ^
             --add-data "src\Program.py;." ^
             --add-data "src\Systems\Tools\bruteforcer.py;." ^
