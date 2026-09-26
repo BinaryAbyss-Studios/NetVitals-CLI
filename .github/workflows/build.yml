@@ -28,7 +28,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller
-          pip install scapy whois requests pywifi comtypes
+          pip install scapy python-whois requests pywifi comtypes
 
       - name: Build
         shell: cmd
