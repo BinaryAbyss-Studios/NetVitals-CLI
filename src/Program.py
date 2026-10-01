@@ -55,7 +55,7 @@ except (ModuleNotFoundError, ImportError) as e:
 
 # ── NetVitals Program version 1.6.1 ───────────────────────────────────
 #- Open Source on Github.
-version = "v1.6.1"
+version = "v1.6.2.2-stable"
 
 if os_name == "Windows":
     os.system(f"title NetVitals {version}")
