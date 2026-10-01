@@ -53,18 +53,6 @@ except (ModuleNotFoundError, ImportError) as e:
     t.join()
     print(f"[!] Could not found Some Essensials Files File. : {e}")
 
-
-# ── Saftey Check ────────────────
-try:
-    import requests as rq
-    import whois
-    if os_name == 'Windows':
-        import pywifi
-        del pywifi
-except (ModuleNotFoundError, ImportError) as e:
-    print(f"{T.LOG_ERROR} Could not found essensials modules, Please Install it from requirements.txt: {e}")
-    sys.exit(1)
-
 # ── NetVitals Program version 1.6.1 ───────────────────────────────────
 #- Open Source on Github.
 version = "v1.6.1"
