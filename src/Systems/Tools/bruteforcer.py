@@ -21,14 +21,14 @@ def system_check():
                 sys.exit()
             print("[+] Found nmcli Package")
 system_check()
-import pywifi
 
 wordlist = "not defined"
 target = "not defined".strip("'")
 
 # Windows Code
 if os_name == 'Windows':
-    try:    
+    import pywifi
+    try:
         wifi = pywifi.PyWiFi()
         iface = wifi.interfaces()[0]
         iface_name = iface.name()
