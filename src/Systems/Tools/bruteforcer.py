@@ -20,8 +20,8 @@ def system_check():
                 print("[-] NetworkManager (nmcli) not found. Linux wifi management requires nmcli.")
                 sys.exit()
             print("[+] Found nmcli Package")
-    
 system_check()
+import pywifi
 
 wordlist = "not defined"
 target = "not defined".strip("'")
@@ -34,7 +34,7 @@ if os_name == 'Windows':
         iface_name = iface.name()
         status = iface.status
     except Exception as ex:
-        print(f"[-] an Error as Occured: {ex}")
+        print(f"[-] an Error as Accured: {ex}")
         sys.exit()
 
     Scan_Timer = 2
@@ -146,7 +146,7 @@ if os_name == 'Windows':
             iface.disconnect()
             sleep(2)
 
-        attack_choice = input("THIS ATTACK WILL DELETE ARE YOUR NETWORK PROFILES DO YOU WANT TO PROCCED? (Enter)")
+        attack_choice = input("THIS ATTACK WILL DELETE ARE YOUR NETWORK PROFILES DO YOU WANT TO  PROCCED? (Enter)")
         if not attack_choice:
             pass
         else:

@@ -251,7 +251,7 @@ def check_subdomains(target_domain, subdomain_list):
 
 def Discord_ID_Lookup(ID_):
     try:
-        TOKEN = input(f"Program Require a Bot Token to Authentication for security reasons with in discord.\n Enter Token >")
+        TOKEN = input(f"Program Require a Bot Token to Authentication for security reasons with in discord.\n Enter Token >").strip()
         if not TOKEN:
             print(f"{T.LOG_WARN} Enter a Vaild Token")
             return

@@ -4,7 +4,15 @@
 
 import itertools
 from pathlib import Path
-print("[+] Loading PasswordGenarator Program.")
+import sys
+import threading
+
+output_lock = threading.Lock()
+def print_log(message):
+    with output_lock:
+        sys.stdout.write("\r\033[K")
+        sys.stdout.write(message + "\n")
+        sys.stdout.flush()
 # ---------- CONFIG ----------
 General_OutPut_Path = "Genarated_Password.txt"
 output_path = Path(General_OutPut_Path)
@@ -270,5 +278,6 @@ def main():
         except Exception as e:
             print(f"\n [-] a Critical Error has Occured: {e}")
 
+print_log("[+] Loaded PasswordGenarator")
 if __name__ == "__main__":
     main()
