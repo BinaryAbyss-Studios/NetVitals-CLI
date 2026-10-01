@@ -34,7 +34,7 @@ if os_name == 'Windows':
         iface_name = iface.name()
         status = iface.status
     except Exception as ex:
-        print(f"[-] an Error as Accured: {ex}")
+        print(f"[-] an Error as Occured: {ex}")
         sys.exit()
 
     Scan_Timer = 2
@@ -146,7 +146,7 @@ if os_name == 'Windows':
             iface.disconnect()
             sleep(2)
 
-        attack_choice = input("THIS ATTACK WILL DELETE ARE YOUR NETWORK PROFILES DO YOU WANT TO  PROCCED? (Enter)")
+        attack_choice = input("THIS ATTACK WILL DELETE ARE YOUR NETWORK PROFILES DO YOU WANT TO PROCCED? (Enter)")
         if not attack_choice:
             pass
         else:

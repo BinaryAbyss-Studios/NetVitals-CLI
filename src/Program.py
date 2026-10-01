@@ -11,11 +11,11 @@ sys.stderr.reconfigure(line_buffering=True)
 from urllib.parse import urlparse
 import webbrowser
 import platform
+import requests
 import json
 from datetime import datetime
 import threading
 os_name = platform.system()
-import time
 
 def Clear_Console():
     if os_name == 'Windows':
@@ -49,16 +49,10 @@ try:
     from Systems.Tools import Nmap_tool as NTool
     from Systems.Tools import Arp_spoof as ASP
 except (ModuleNotFoundError, ImportError) as e: 
+    stop_event.set()
+    t.join()
     print(f"[!] Could not found Some Essensials Files File. : {e}")
-    print("Please Import/Put the Theme file same directory as the program.")
 
-# ── Free up Ram usage and optimization ────────────────────
-del bruteforcer, PW, da_attack, NTool, ASP
-sys.modules.pop("Systems.Tools.bruteforcer", None)
-sys.modules.pop("Systems.Tools.passwordGenarator", None)
-sys.modules.pop("Systems.Tools.deauth_Attack", None)
-sys.modules.pop("Systems.Tools.Nmap_tool", None)
-sys.modules.pop("Systems.Tools.Arp_spoof", None)
 
 # ── Saftey Check ────────────────
 try:
@@ -67,7 +61,6 @@ try:
     if os_name == 'Windows':
         import pywifi
         del pywifi
-        sys.modules.pop('pywifi', None)
 except (ModuleNotFoundError, ImportError) as e:
     print(f"{T.LOG_ERROR} Could not found essensials modules, Please Install it from requirements.txt: {e}")
     sys.exit(1)
@@ -111,11 +104,12 @@ def Menu():
   |Network Discovery| --</>-- | Network Essensials |
   ╰─────────────────╯         ╰────────────────────╯
                 
-    [1] Ip Lookup              [6] Network BruteForcer.
-    [2] Url Lookup             [7] Password Genarator.
-    [3] Whois Lookup           [8] Deauth Attack.
-    [4] Sniffer                [9] Nmap Simplified.
-    [5] Subdomain Enumerator   [10] Arp Spoof.
+    [1] Ip Lookup              [7] Network BruteForcer.
+    [2] Url Lookup             [8] Password Genarator.
+    [3] Whois Lookup           [9] Deauth Attack.
+    [4] Sniffer                [10] Nmap Simplified.
+    [5] Subdomain Enumerator   [11] Arp Spoof.
+    [6] Discord ID Lookup
 
              {T.COLOR_LIGHTGRAY}by: BinaryAbyss Studios, LLC {T.COLOR_BLUE} 
         [99] Exit    [01] More Options   [02] clear {T.COLOR_RESET}"""
@@ -267,7 +261,36 @@ def check_subdomains(target_domain, subdomain_list):
     # 4. Final cleanup line when done
     print(f"\n\n[+] Scan complete! Found {len(discovered)} active subdomains.")
 
+def Discord_ID_Lookup(ID_):
+    try:
+        TOKEN = input(f"Program Require a Bot Token to Authentication for security reasons with in discord.\n Enter Token >")
+        if not TOKEN:
+            print(f"{T.LOG_WARN} Enter a Vaild Token")
+            return
 
+        headers = {
+            "Authorization": f"Bot {BOT_TOKEN}"
+        }
+        response = requests.get(f"https://discordapp.com/api/v10/users/{ID_}", headers=headers)
+        print(f"{T.LOG_SUCCESS} Request Made.")
+
+        if response.status_code == 404:
+            print(f"{T.LOG_ERROR} User Not found.")
+
+        user_data = response.json()
+        print(f"{T.LOG_SUCCESS} Converted to a Json Response.")
+        compressed_data_ID = f"""
+Username : {user_data.get('username')}
+ID : {user_data.get('id')}")
+Bio : {user_data.get('bio')}
+Avatar: {user_data.get('avatar')}
+Banner: {user_data.get('banner')}
+"""
+        print(compressed_data_ID)
+    except Exception as e:
+        print(f"{T.LOG_ERROR} {e}")
+
+    
 def More_Options():
     Section = f"{T.COLOR_MAGENTA}[1]{T.COLOR_RESET} Visit Website {T.COLOR_MAGENTA}[2]{T.COLOR_RESET} Visit Source Code {T.COLOR_MAGENTA}[3]{T.COLOR_RESET} Return"
     print(Section)
@@ -334,39 +357,31 @@ def EntryBoot():
                         print(f"{T.LOG_ERROR} Error reading file: {e}")
                 else:
                     print(f"{T.LOG_ERROR} The file path '{WorldList_path}' does not exist.")
-
             elif cmd == "6":
-                print(f"{T.LOG_INFO} Running Script.")
-                from Systems.Tools import bruteforcer
-                bruteforcer.main()
-                del bruteforcer
-                sys.modules.pop("Systems.Tools.bruteforcer", None)
+                while True:
+                    ID_ = input("Enter ID > ")
+                    if not ID_:
+                        print(f"{T.LOG_WARN} Enter a Vaild IP")
+                        break
+                    Discord_ID_Lookup(ID_)
+                    break
             elif cmd == "7":
                 print(f"{T.LOG_INFO} Running Script.")
-                from Systems.Tools import passwordGenarator as PW
-                PW.main()
-                del PW
-                sys.modules.pop("Systems.Tools.passwordGenarator", None)
+                bruteforcer.main()
             elif cmd == "8":
+                print(f"{T.LOG_INFO} Running Script.")
+                PW.main()
+            elif cmd == "9":
                 if os_name == 'Linux':
-                    from Systems.Tools import deauth_Attack as da_attack
                     da_attack.main()
-                    del da_attack
-                    sys.modules.pop("Systems.Tools.deauth_Attack", None)
                 else:
                     print(f"{T.LOG_WARN} this script only supports GNU/Linux os (operating System)")
-            elif cmd == "9":
-                print(f"{T.LOG_INFO} Running Script.")
-                from Systems.Tools import Nmap_tool as NTool
-                NTool.main()
-                del NTool
-                sys.modules.pop("Systems.Tools.Nmap_tool", None)
             elif cmd == "10":
+                print(f"{T.LOG_INFO} Running Script.")
+                NTool.main()
+            elif cmd == "11":
                 if os_name == 'Linux':
-                    from Systems.Tools import Arp_spoof as ASP
                     ASP.main()
-                    del ASP
-                    sys.modules.pop("Systems.Tools.Arp_spoof", None)
                 else:
                     print(f"{T.LOG_WARN} this script only supports GNU/Linux os (operating System)")
         # Other nessesary Commands
@@ -386,8 +401,6 @@ def EntryBoot():
                 print(f"{T.LOG_ERROR} Invaild Input")
         except KeyboardInterrupt:
             sys.exit(f"\n{T.LOG_INFO} CTRL C , KeyboardInterrupt , Closing Program.")
-        except ValueError as e:
-            print(f"{T.LOG_ERROR} Value Error: {e}")
         except Exception as e:
             print(f"{T.LOG_ERROR} Critical Error has Occured : {e}")
 

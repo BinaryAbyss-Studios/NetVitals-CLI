@@ -21,7 +21,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.14"
+          python-version: "3.13"
 
       - name: Install dependencies
         shell: cmd
@@ -46,7 +46,11 @@ jobs:
             --collect-all whois ^
             --collect-all requests ^
             --collect-all pywifi ^
+            --collect-all pywifi.wifi ^
+            --collect-all pywifi.const ^
             --collect-all comtypes ^
+            --collect-all comtypes.client ^
+            --collect-all comtypes.gen ^
             "src\main.py"
 
       - name: Rename executable
