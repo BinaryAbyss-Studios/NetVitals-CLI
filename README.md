@@ -2,7 +2,7 @@
 
 ![NetVitals Banner](./image.png)
 
-[![Release](https://img.shields.io/badge/release-1.6.1-96f1f1?labelColor=101418\&logo=github\&logoColor=white)](https://github.com/BinaryAbyss-Studios/NetVitals/releases)
+[![Release](https://img.shields.io/badge/release-1.6.2.2-96f1f1?labelColor=101418\&logo=github\&logoColor=white)](https://github.com/BinaryAbyss-Studios/NetVitals/releases)
 [![Platforms](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-8A2BE2)](https://github.com/Binaryabyss-Studios/NetVitals-CLI/releases)
 [![Discord](https://img.shields.io/badge/discord_server-96f1f1?labelColor=101418\&logo=discord\&logoColor=white)](https://discord.gg/A2HGSGVhey)    
 [![Last Commit](https://img.shields.io/github/last-commit/BinaryAbyss-Studios/NetVitals?label=last%20commit\&labelColor=101418\&color=9ccbfb\&logo=git\&logoColor=white)](https://github.com/BinaryAbyss-Studios/NetVitals/commits/main)    
