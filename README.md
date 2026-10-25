@@ -11,21 +11,20 @@
 </div>
 
 ---
+**NetVitals is a program containing tools for network reconnaissance and WiFi hash/password cracking.**
 
-**Netvitals is a program that contains Tools about Networking and Cracking Wifi Hashes and Passwords Wirelessly.**
+- **Find anyone's approximate location using their IP address, plus full URL info via the built-in URL lookup tool.**
 
-- **in this Tool you can Find Everyone Location Using his IP address (internet protocol) and every url information in the built in url lookup.**
+- **Discover forgotten/hidden subdomains with the Subdomain Enumerator, which includes a built-in default wordlist.**
 
-- **you can find Forgotten Websites with Subdomain Enumerator Tool, and there is a bulit in Default Wordlist.**
+- **Test network passwords and capture packets.**
 
-- **Test Network Paaswords and Capture packets**
+- **Perform ARP Spoofing attacks (Man-in-the-Middle).**
 
-- **Arp Spoof Attacks/the Man in the Middle**
-
-- **We Currently Supported 3 Offical OS  (Linux, Macos, Windows). & All Linux Distributions.**
+- **Officially supported on 3 OS platforms (Linux, macOS, Windows) — including all Linux distributions.**
 
 
-# Installations
+## Installations
 
 > **Disclamer**
 >
@@ -85,9 +84,3 @@ if you want to run after installation again (same directory):
 ```
 
 ---
-
-# buy us a coffee ☕
-
-If you find this project useful, consider sponsoring its development.
-
-[![Buy Us a Coffee](https://img.shields.io/badge/-buy_us_a_coffee-A52A2A)](https://github.com/sponsors/BinaryAbyssStudios)
