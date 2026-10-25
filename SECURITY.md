@@ -14,6 +14,4 @@ currently being supported with security updates.
 
 Use this section to tell people how to report a vulnerability.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+except the vulnerability will be fixed in a range of 2 or 4 business days.
